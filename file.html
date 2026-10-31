@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
+<title>NO PARTICULAR REASON</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Oxanium:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #080b12;
+  --panel: #101827;
+  --panel2: #142139;
+  --blue: #287bff;
+  --blue-light: #70aaff;
+  --red: #b92336;
+  --white: #e7ecf5;
+  --muted: #8794aa;
+  --border: rgba(112,170,255,.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, #142443 0%, transparent 55%),
+    var(--bg);
+  color: var(--white);
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  opacity: .13;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,.08) 4px
+  );
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: min(100% - 28px, 760px);
+  margin: auto;
+  padding: 22px 0 45px;
+  position: relative;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.logo {
+  font-family: "Oxanium", sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 1.5px;
+}
+
+.logo span {
+  color: var(--blue-light);
+}
+
+.status {
+  color: #78e6b2;
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-family: "Oxanium", sans-serif;
+}
+
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #78e6b2;
+  margin-right: 7px;
+  box-shadow: 0 0 10px #78e6b2;
+}
+
+.progress-wrap {
+  margin-bottom: 28px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-family: "Oxanium", sans-serif;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.progress {
+  height: 4px;
+  background: #1a2639;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue), #8cbdff);
+  box-shadow: 0 0 12px var(--blue);
+  transition: width .5s ease;
+}
+
+.screen {
+  display: none;
+  animation: appear .55s ease both;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  color: var(--blue-light);
+  font-family: "Oxanium", sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+h1, h2, h3 {
+  font-family: "Oxanium", "Be Vietnam Pro", sans-serif;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(28px, 7vw, 43px);
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: clamp(23px, 6vw, 32px);
+  margin-bottom: 12px;
+}
+
+p {
+  line-height: 1.8;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.panel {
+  background: linear-gradient(145deg, rgba(20,33,57,.95), rgba(12,19,32,.96));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 15px 45px rgba(0,0,0,.22);
+}
+
+.entity-area {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 24px 0;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(14,25,43,.7);
+}
+
+.entity {
+  width: 112px;
+  min-width: 112px;
+  height: 130px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.entity-shadow {
+  position: absolute;
+  bottom: 4px;
+  width: 86px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(40,123,255,.2);
+  filter: blur(9px);
+}
+
+.entity-body {
+  width: 83px;
+  height: 110px;
+  position: relative;
+  border-radius: 42px 42px 22px 22px;
+  background: linear-gradient(145deg, #26354d, #080d18 75%);
+  border: 1px solid #405779;
+  box-shadow: inset 0 0 25px rgba(40,123,255,.2),
+              0 0 25px rgba(40,123,255,.1);
+  clip-path: polygon(18% 0,82% 0,100% 100%,0 100%);
+}
+
+.entity-head {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 53px;
+  height: 56px;
+  border-radius: 45% 45% 40% 40%;
+  background: linear-gradient(145deg,#192941,#080d18);
+  border: 1px solid #4c6b94;
+  overflow: hidden;
+}
+
+.entity-eyes {
+  position: absolute;
+  top: 28px;
+  left: 9px;
+  display: flex;
+  gap: 13px;
+}
+
+.entity-eyes span {
+  width: 9px;
+  height: 4px;
+  border-radius: 50%;
+  background: #66b5ff;
+  box-shadow: 0 0 12px #287bff;
+  animation: blink 4s infinite;
+}
+
+@keyframes blink {
+  0%,45%,49%,100% { transform: scaleY(1); }
+  47% { transform: scaleY(.1); }
+}
+
+.entity-line {
+  position: absolute;
+  top: 44px;
+  left: -4px;
+  width: 70px;
+  height: 2px;
+  background: rgba(40,123,255,.7);
+  transform: rotate(-12deg);
+  box-shadow: 0 0 9px var(--blue);
+}
+
+.entity-body::after {
+  content: "";
+  position: absolute;
+  top: 75px;
+  left: 15px;
+  width: 55px;
+  height: 1px;
+  background: #287bff;
+  box-shadow: 0 0 12px #287bff;
+}
+
+.entity.red .entity-eyes span {
+  background: #ff5266;
+  box-shadow: 0 0 12px #ff263f;
+}
+
+.entity.red .entity-line {
+  background: #ff334f;
+  box-shadow: 0 0 10px #ff334f;
+}
+
+.entity-info {
+  min-width: 0;
+}
+
+.entity-name {
+  font-family: "Oxanium", sans-serif;
+  color: var(--blue-light);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.entity-role {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+.entity-speech {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 12px;
+  color: #d5e1f5;
+}
+
+.input-label {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.pin-area {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pin {
+  width: 25%;
+  min-width: 0;
+  height: 58px;
+  text-align: center;
+  font-family: "Oxanium", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+  background: #080f1c;
+  border: 1px solid #344b6d;
+  border-radius: 10px;
+  outline: none;
+  caret-color: var(--blue-light);
+}
+
+.pin:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 15px rgba(40,123,255,.22);
+}
+
+.btn {
+  width: 100%;
+  min-height: 49px;
+  border: 1px solid var(--blue);
+  border-radius: 10px;
+  background: linear-gradient(100deg,#1d5dcb,#287bff);
+  color: white;
+  font-family: "Oxanium", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: .2s;
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+.btn.secondary {
+  background: transparent;
+  border-color: #40516c;
+  color: #dce7fa;
+}
+
+.btn.danger {
+  background: linear-gradient(100deg,#791c2c,#b92336);
+  border-color: #d34254;
+}
+
+.message {
+  min-height: 24px;
+  color: #ff6578;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.dialogue {
+  border-left: 2px solid var(--blue);
+  padding: 4px 0 4px 15px;
+  margin: 20px 0;
+  line-height: 1.9;
+  color: #d7e1f2;
+  font-size: 14px;
+}
+
+.dialogue p {
+  margin: 5px 0;
+}
+
+.case-tag {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid rgba(40,123,255,.4);
+  border-radius: 6px;
+  color: var(--blue-light);
+  font-family: "Oxanium", sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  margin-bottom: 15px;
+}
+
+.question {
+  font-size: 19px;
+  line-height: 1.65;
+  font-weight: 700;
+  margin: 12px 0 20px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 145px;
+  resize: vertical;
+  background: #080f1c;
+  border: 1px solid #344b6d;
+  border-radius: 11px;
+  padding: 15px;
+  color: white;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 14px rgba(40,123,255,.14);
+}
+
+textarea::placeholder {
+  color: #66758c;
+}
+
+.helper {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 10px 0 18px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions .btn {
+  flex: 1;
+}
+
+.review-item {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-title {
+  color: var(--blue-light);
+  font-family: "Oxanium", sans-serif;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+
+.review-answer {
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #dce5f4;
+}
+
+.consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 20px 0;
+  color: #c3cede;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.consent input {
+  margin-top: 4px;
+  accent-color: var(--blue);
+  width: 17px;
+  height: 17px;
+}
+
+.success-mark {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #4bdaaa;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #6ce8b7;
+  font-size: 34px;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 30px rgba(108,232,183,.12);
+  animation: pop .6s ease both;
+}
+
+@keyframes pop {
+  from { transform: scale(.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.center {
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+  color: #536177;
+  font-family: "Oxanium", sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-top: 35px;
+}
+
+.glitch {
+  animation: glitch .35s ease;
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(3px); }
+  50% { transform: translateX(-3px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+@media(max-width:420px) {
+  .entity-area { gap: 12px; padding: 13px; }
+  .entity { width: 90px; min-width: 90px; }
+  .entity-speech { font-size: 11px; }
+  .panel { padding: 18px; }
+  .question { font-size: 17px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <header class="topbar">
+    <div class="logo">NO PARTICULAR<span>REASON</span></div>
+    <div class="status">SYSTEM ONLINE</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>INVESTIGATION PROGRESS</span>
+      <span id="progressText">00 / 05</span>
+    </div>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <section class="screen active" id="screen0">
+    <div class="eyebrow">RESTRICTED ACCESS // 001</div>
+    <h1>IDENTITY<br>VERIFICATION</h1>
+    <p class="muted">Đố anh biết password là gì? Mật khẩu vừa hay được dùng làm pass máy em đó:D</p>
+
+    <div class="entity-area">
+      <div class="entity" id="entity">
+        <div class="entity-shadow"></div>
+        <div class="entity-body">
+          <div class="entity-head">
+            <div class="entity-eyes">
+              <span></span><span></span>
+            </div>
+          </div>
+          <div class="entity-line"></div>
+        </div>
+      </div>
+
+      <div class="entity-info">
+        <div class="entity-name">UNKNOWN</div>
+        <div class="entity-role">THE OPERATOR</div>
+        <div class="entity-speech" id="speech">
+          Đang xác minh danh tính người truy cập...
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <label class="input-label">ENTER YOUR ACCESS CODE</label>
+      <div class="pin-area">
+        <input class="pin" maxlength="1" inputmode="numeric" aria-label="Số thứ nhất">
+        <input class="pin" maxlength="1" inputmode="numeric" aria-label="Số thứ hai">
+        <input class="pin" maxlength="1" inputmode="numeric" aria-label="Số thứ ba">
+        <input class="pin" maxlength="1" inputmode="numeric" aria-label="Số thứ tư">
+      </div>
+      <button class="btn" id="verifyBtn">VERIFY IDENTITY</button>
+      <div class="message" id="pinMessage" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen1">
+    <div class="eyebrow">SYSTEM WARNING // 002</div>
+    <h2>SYSTEM ERROR</h2>
+
+    <div class="entity-area">
+      <div class="entity" id="entity2">
+        <div class="entity-shadow"></div>
+        <div class="entity-body">
+          <div class="entity-head">
+            <div class="entity-eyes"><span></span><span></span></div>
+          </div>
+          <div class="entity-line"></div>
+        </div>
+      </div>
+      <div class="entity-info">
+        <div class="entity-name">UNKNOWN</div>
+        <div class="entity-role">CONNECTION ESTABLISHED</div>
+        <div class="entity-speech" id="introSpeech">
+          Là sinh nhật của nguyn ứ nguyn 
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="dialogue" id="dialogue">
+        <p>Anh thấy có đáng tin hong?</p>
+      </div>
+      <button class="btn" id="nextDialogue">CONTINUE</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen2">
+    <div class="eyebrow">CASE FILE // 001</div>
+    <div class="case-tag">GAME PARTNER</div>
+    <h2>FIRST INVESTIGATION</h2>
+
+    <div class="entity-area">
+      <div class="entity">
+        <div class="entity-shadow"></div>
+        <div class="entity-body">
+          <div class="entity-head">
+            <div class="entity-eyes"><span></span><span></span></div>
+          </div>
+          <div class="entity-line"></div>
+        </div>
+      </div>
+      <div class="entity-info">
+        <div class="entity-name">UNKNOWN</div>
+        <div class="entity-role">QUESTION DETECTED</div>
+        <div class="entity-speech">Câu hỏi nhỏ yêu cầu anh trả lời:b</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="question">Em chơi game dở z anh có ý kiến gì hong zạ? 🥺</div>
+      <label class="input-label" for="answer1">YOUR RESPONSE</label>
+      <textarea id="answer1" placeholder="Trả lời..."></textarea>
+      <div class="helper"> Hôm nay bầu trời trong xanh, có ba con mèo đang bay ngang qua trước mắt tôi.
+
+Một con đội mũ bảo hiểm, một con đang cầm bánh mì, con còn lại đang tìm đường xuống mặt đất.
+
+Tôi không biết chuyện gì đang xảy ra, ngoại trừ việc mặt trăng có vẻ hơi giống cái bánh bao.
+
+Nếu anh đọc được dòng này, xin chúc mừng, anh đã lãng phí 10 giây cuộc đời :))</div>
+      <button class="btn" onclick="nextCase(1)">SUBMIT ANSWER</button>
+      <div class="message" id="error1"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen3">
+    <div class="eyebrow">CASE FILE // 002</div>
+    <div class="case-tag">PERSONALITY ANALYSIS</div>
+    <h2>SECOND INVESTIGATION</h2>
+
+    <div class="entity-area">
+      <div class="entity">
+        <div class="entity-shadow"></div>
+        <div class="entity-body">
+          <div class="entity-head">
+            <div class="entity-eyes"><span></span><span></span></div>
+          </div>
+          <div class="entity-line"></div>
+        </div>
+      </div>
+      <div class="entity-info">
+        <div class="entity-name">UNKNOWN</div>
+        <div class="entity-role">PERSONALITY SCAN</div>
+        <div class="entity-speech">Câu trả lời của anh sẽ được ghi nhận.</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="question">Anh ghét nhất tính cách gì ở một đứa con gái? </div>
+      <label class="input-label" for="answer2">YOUR RESPONSE</label>
+      <textarea id="answer2" placeholder=" trả lời cái gì thế, đáng mong đợi... "></textarea>
+      <div class="helper">Cần trả lời theo suy nghĩ của cá nhân.</div>
+      <button class="btn" onclick="nextCase(2)">SUBMIT ANSWER</button>
+      <div class="message" id="error2"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen4">
+    <div class="eyebrow">CASE FILE // 003</div>
+    <div class="case-tag">A LITTLE CURIOSITY</div>
+    <h2>FINAL INVESTIGATION</h2>
+
+    <div class="entity-area">
+      <div class="entity" id="entityFinal">
+        <div class="entity-shadow"></div>
+        <div class="entity-body">
+          <div class="entity-head">
+            <div class="entity-eyes"><span></span><span></span></div>
+          </div>
+          <div class="entity-line"></div>
+        </div>
+      </div>
+      <div class="entity-info">
+        <div class="entity-name">UNKNOWN</div>
+        <div class="entity-role">PERSONAL NOTE FOUND</div>
+        <div class="entity-speech">Có vẻ tôi vừa tìm thấy một ghi chú...</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p style="font-size:14px;line-height:1.9;color:#d7e1f2">
+        Em thic cái tính bất cần của anh lứm íii.<br>
+        Đừng hỏi gì em nha, đơn giản là em thic cái tính đó của anh hoi.
+      </p>
+
+      <div class="question">Tui rất đang muốn biết tại sao anh lại có cái tính bất cần z?</div>
+      <label class="input-label" for="answer3">YOUR RESPONSE</label>
+      <textarea id="answer3" placeholder="Tui rất đang muốn biết..."></textarea>
+      <div class="helper">Em thích phá anh ghê hihi. Anh là chú mèo nhỏ tui iu thích nhất.😈</div>
+      <button class="btn" onclick="nextCase(3)">SUBMIT ANSWER</button>
+      <div class="message" id="error3"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen5">
+    <div class="eyebrow">INVESTIGATION // REVIEW</div>
+    <h2>REVIEW YOUR FILE</h2>
+    <p class="muted">Kiểm tra lại câu trả lời trước khi gửi đi.</p>
+
+    <div class="panel">
+      <div class="review-item">
+        <div class="review-title">CASE 001 — GAME PARTNER</div>
+        <div class="review-answer" id="review1"></div>
+      </div>
+      <div class="review-item">
+        <div class="review-title">CASE 002 — PERSONALITY</div>
+        <div class="review-answer" id="review2"></div>
+      </div>
+      <div class="review-item">
+        <div class="review-title">CASE 003 — A LITTLE CURIOSITY</div>
+        <div class="review-answer" id="review3"></div>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" id="consent">
+        <span>Tôi đồng ý gửi ba câu trả lời này cho người tạo trò chơi.</span>
+      </label>
+
+      <button class="btn" id="sendBtn">CONFIRM & SEND FILE</button>
+      <div class="message" id="sendMessage" aria-live="polite"></div>
+      <button class="btn secondary" style="margin-top:10px" onclick="showScreen(4)">GO BACK</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen6">
+    <div class="panel center">
+      <div class="success-mark">✓</div>
+      <div class="eyebrow">ALL CASES COMPLETED</div>
+      <h2>MISSION<br>COMPLETED</h2>
+      <p style="font-size:16px;line-height:2;margin-top:22px">
+        Anh đã hoàn thành cái thứ linh tinh này gòiiii.<br>
+        Anh iu ơi, bây giờ anh có thể thoát bbai cục cưng~
+      </p>
+      <div class="entity-area" style="justify-content:center;text-align:left">
+        <div class="entity">
+          <div class="entity-shadow"></div>
+          <div class="entity-body">
+            <div class="entity-head">
+              <div class="entity-eyes"><span></span><span></span></div>
+            </div>
+            <div class="entity-line"></div>
+          </div>
+        </div>
+        <div class="entity-info">
+          <div class="entity-name">UNKNOWN</div>
+          <div class="entity-role">CONNECTION TERMINATED</div>
+          <div class="entity-speech">Hồ sơ đã được gửi. Tạm biệt, người được chọn.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">UNKNOWN SYSTEM © 2026 — CLASSIFIED</footer>
+</main>
+
+<script>
+const ACCESS_CODE = "0611";
+const FORMSPREE_URL = "https://formspree.io/f/mljjwaek";
+
+let dialogueIndex = 0;
+
+const dialogueLines = [
+  "Anh đang nghĩ em lại xạo anh rồi chứ gì?",
+  "Tin hay không đều không quan trọng hoan hỉ hoan hỉ.",
+  "Đùa chứ em hết trò nên mới bày ra trò này cơ.",
+  "Thôi, vào việc chính nè =)))"
+];
+
+const answers = {
+  answer1: "",
+  answer2: "",
+  answer3: ""
+};
+
+const screens = document.querySelectorAll(".screen");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
+
+function showScreen(number) {
+  screens.forEach(screen => screen.classList.remove("active"));
+  document.getElementById("screen" + number).classList.add("active");
+
+  const progress = Math.min(number / 6 * 100, 100);
+  progressFill.style.width = progress + "%";
+  progressText.textContent =
+    String(Math.min(number, 5)).padStart(2, "0") + " / 05";
+
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+const pins = [...document.querySelectorAll(".pin")];
+
+pins.forEach((pin, index) => {
+  pin.addEventListener("input", () => {
+    pin.value = pin.value.replace(/\D/g, "").slice(0, 1);
+
+    if (pin.value && index < pins.length - 1) {
+      pins[index + 1].focus();
+    }
+  });
+
+  pin.addEventListener("keydown", event => {
+    if (event.key === "Backspace" && !pin.value && index > 0) {
+      pins[index - 1].focus();
+    }
+
+    if (event.key === "Enter") {
+      document.getElementById("verifyBtn").click();
+    }
+  });
+});
+
+document.getElementById("verifyBtn").addEventListener("click", () => {
+  const code = pins.map(pin => pin.value).join("");
+  const message = document.getElementById("pinMessage");
+  const entity = document.getElementById("entity");
+
+  if (code === ACCESS_CODE) {
+    message.style.color = "#78e6b2";
+    message.textContent = "ACCESS GRANTED";
+    entity.classList.remove("red");
+    document.getElementById("speech").textContent =
+      "Danh tính đã được xác minh. Mời anh tiếp tục.";
+    setTimeout(() => showScreen(1), 800);
+  } else {
+    message.textContent = "ACCESS DENIED. TRY AGAIN!";
+    entity.classList.add("red");
+    entity.classList.remove("glitch");
+    void entity.offsetWidth;
+    entity.classList.add("glitch");
+    pins.forEach(pin => pin.value = "");
+    pins[0].focus();
+  }
+});
+
+document.getElementById("nextDialogue").addEventListener("click", () => {
+  dialogueIndex++;
+
+  if (dialogueIndex < dialogueLines.length) {
+    document.getElementById("dialogue").innerHTML =
+      "<p>" + dialogueLines[dialogueIndex] + "</p>";
+
+    document.getElementById("introSpeech").textContent =
+      dialogueIndex === 3
+        ? "Được rồi. Bắt đầu thôi."
+        : "Cái con bên trái vẫn đang theo dõi phản ứng của anh đó";
+  } else {
+    showScreen(2);
+  }
+});
+
+function nextCase(caseNumber) {
+  const input = document.getElementById("answer" + caseNumber);
+  const error = document.getElementById("error" + caseNumber);
+  const value = input.value.trim();
+
+  if (!value) {
+    error.textContent = "Anh chưa trả lời câu hỏi này kìa.";
+    input.focus();
+    return;
+  }
+
+  answers["answer" + caseNumber] = value;
+  error.textContent = "";
+
+  if (caseNumber === 1) showScreen(3);
+  if (caseNumber === 2) showScreen(4);
+
+  if (caseNumber === 3) {
+    document.getElementById("review1").textContent = answers.answer1;
+    document.getElementById("review2").textContent = answers.answer2;
+    document.getElementById("review3").textContent = answers.answer3;
+    showScreen(5);
+  }
+}
+
+document.getElementById("sendBtn").addEventListener("click", async () => {
+  const consent = document.getElementById("consent");
+  const message = document.getElementById("sendMessage");
+  const button = document.getElementById("sendBtn");
+
+  if (!consent.checked) {
+    message.textContent = "Anh cần xác nhận đồng ý gửi câu trả lời trước nha.";
+    return;
+  }
+
+  if (!answers.answer1 || !answers.answer2 || !answers.answer3) {
+    message.textContent = "Có câu trả lời đang bị thiếu. Vui lòng kiểm tra lại.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "SENDING...";
+  message.style.color = "#a9caff";
+  message.textContent = "Đang gửi hồ sơ...";
+
+  try {
+    const response = await fetch(FORMSPREE_URL, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        subject: "NGUYEN'S SECRET FILE — ANSWERS",
+        case_001_game_partner: answers.answer1,
+        case_002_personality: answers.answer2,
+        case_003_curiosity: answers.answer3
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("Gửi thất bại");
+    }
+
+    message.style.color = "#78e6b2";
+    message.textContent = "Hồ sơ đã được gửi thành công.";
+    setTimeout(() => showScreen(6), 1000);
+
+  } catch (error) {
+    message.style.color = "#ff6578";
+    message.textContent =
+      "Chưa gửi được hồ sơ. Kiểm tra kết nối mạng hoặc cấu hình Formspree nhé.";
+    button.disabled = false;
+    button.textContent = "TRY AGAIN";
+  }
+});
+</script>
+</body>
+</html>
